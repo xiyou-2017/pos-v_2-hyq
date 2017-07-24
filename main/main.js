@@ -57,14 +57,42 @@ let getPromotion = (type, cartItem) => {
   return ({saved, subtotal});
 }
 
-let getItemsTotal= (subtotals) =>  {
+let getItemsTotal = (subtotals) => {
   let total = 0;
   let savedTotal = 0;
-  for(let subtotal of subtotals){
+  for (let subtotal of subtotals) {
     total += subtotal.subtotal;
     savedTotal += subtotal.saved;
   }
-  return({subtotals,total,savedTotal});
+  return ({subtotals, total, savedTotal});
 }
 
+let getReceipt = (total) => {
+  let receipt = "***" + "<" + "没钱赚商店>收据***\n打印时间：";
+  let time = getNowTime();
+  receipt = receipt +time.year + "年" + time.month + "月" + time.day + "日" + " " + time.hour + ":" + time.min + ":" + time.second + "\n----------------------\n";
+  for (let cart of total.subtotals) {
+    receipt = receipt + "名称：" + cart.cartItem.item.name + "，数量：" + cart.cartItem.count + cart.cartItem.item.unit + "，单价：" + cart.cartItem.item.price.toFixed(2) + "(元)，小计：" + cart.subtotal.toFixed(2) + "(元)\n";
+  }
+  receipt = receipt + "----------------------\n" + "总计：" + total.total.toFixed(2)+ "(元)\n节省：" + total.savedTotal.toFixed(2) + "(元)\n**********************";
+
+  console.log(receipt);
+}
+
+let getNowTime = () => {
+  let time = new Date();
+  let year = time.getFullYear()
+  time
+  let month = time.getMonth() + 1;
+  month = month > 10 ? month : "0" + month;
+  let day = time.getDate();
+  day = day > 10 ? day : "0" + day;
+  let hour = time.getHours();
+  hour = hour > 10 ? hour : "0" + hour;
+  let min = time.getMinutes();
+  min = min > 10 ? min : "0" + min;
+  let second = time.getSeconds();
+  second = second > 10 ? second : "0" + second;
+  return ({year, month, day, hour, min, second});
+}
 
