@@ -57,3 +57,14 @@ let getPromotion = (type, cartItem) => {
   return ({saved, subtotal});
 }
 
+let getItemsTotal= (subtotals) =>  {
+  let total = 0;
+  let savedTotal = 0;
+  for(let subtotal of subtotals){
+    total += subtotal.subtotal;
+    savedTotal += subtotal.saved;
+  }
+  return({subtotals,total,savedTotal});
+}
+
+
