@@ -31,3 +31,29 @@ let buildItems = (inputs) => {
   }
   return cartItems;
 }
+
+let getSubtotals = (cartItems) => {
+  return cartItems.map(cartItem => {
+    let promotionType = getPromotionType(cartItem);
+    let {saved, subtotal} = getPromotion(promotionType, cartItem);
+    return ({cartItem, saved, subtotal});
+  });
+}
+
+let getPromotionType = (cartItem) => {
+  let promotion = Promotion.all();
+  let type = promotion.find((type) => type.barcodes.includes(cartItem.item.barcode));
+  return type ? type : "";
+}
+
+let getPromotion = (type, cartItem) => {
+  let count = 0;
+  if (type.type === 'BUY_TWO_GET_ONE_FREE') {
+    count = parseInt(cartItem.count / 3);
+  }
+  let saved = count * cartItem.item.price;
+  let subtotal = cartItem.item.price * (cartItem.count - count);
+
+  return ({saved, subtotal});
+}
+

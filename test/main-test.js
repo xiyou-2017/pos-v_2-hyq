@@ -94,3 +94,84 @@ describe('getItems-test',() => {
     expect(buildItems(inputs)).toEqual(cartItems);
   });
 });
+
+
+describe('getSubtotals test',() => {
+  it('get every item subtotal',() =>{
+    let cartItems = [
+      {
+        item: {
+          barcode: 'ITEM000001',
+          name: '雪碧',
+          unit: '瓶',
+          price: 3.00
+        },
+        count: 5
+      },
+      {
+        item: {
+          barcode: 'ITEM000003',
+          name: '荔枝',
+          unit: '斤',
+          price: 15.00
+        },
+        count: 2
+      },
+      {
+        item: {
+          barcode: 'ITEM000005',
+          name: '方便面',
+          unit: '袋',
+          price: 4.5
+        },
+        count: 3
+      }
+    ];
+    let subtotals = [
+      {
+        cartItem: {
+          item: {
+            barcode: 'ITEM000001',
+            name: '雪碧',
+            unit: '瓶',
+            price: 3.00
+          },
+          count: 5
+        },
+
+        saved: 3,
+        subtotal: 12
+      },
+      {
+        cartItem: {
+          item: {
+            barcode: 'ITEM000003',
+            name: '荔枝',
+            unit: '斤',
+            price: 15.00
+          },
+
+          count: 2
+        },
+
+        saved: 0,
+        subtotal: 30
+      },
+      {
+        cartItem: {
+          item: {
+            barcode: 'ITEM000005',
+            name: '方便面',
+            unit: '袋',
+            price: 4.5
+          },
+          count: 3
+        },
+
+        saved: 4.5,
+        subtotal: 9
+      }
+    ];
+    expect(getSubtotals(cartItems)).toEqual(subtotals);
+  });
+});
